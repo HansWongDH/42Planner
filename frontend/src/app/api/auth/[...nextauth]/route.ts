@@ -8,11 +8,23 @@ const authOptions: NextAuthOptions = {
       clientSecret: process.env.FT_OAUTH_SECRET ?? '',
     }),
   ],
-  pages: {
-    signIn: '/',
-  },
-}
+  callbacks: {
+    async jwt({ token, account }) {
+      if (account) {
+        console.log(account)
+        token.access_token = account.access_token ?? '';;
+      }
 
-  const handler = NextAuth(authOptions);
+      return token
+    },
+  async session({session, token})
+  {
+    session.access_token = token.access_token;
+    return session;
+  }
+},
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
