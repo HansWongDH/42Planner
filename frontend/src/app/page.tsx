@@ -1,11 +1,14 @@
 'use client'
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { useSession, signIn, signOut, SessionProvider } from 'next-auth/react';
+import SignInComponent from './components/signInComponent';
 
-export default function Auth() {
+function MyApp() {
   return (
-    <div>
-      <h1>Welcome to My App</h1>
-        <button onClick={() => signIn('42-school')}>Sign in with 42 School</button>
-    </div>
+    <SessionProvider>
+      <SignInComponent />
+    
+    </SessionProvider>
   );
 }
+
+export default MyApp;
