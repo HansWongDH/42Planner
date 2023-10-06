@@ -2,18 +2,12 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
 import callAPI from '../libs/CallApi';
 import { useEffect, useState } from 'react';
+import { Session } from 'next-auth';
 
-
-export default function SignInComponent() {
-  const { data: session } = useSession();
-  const [info, setInfo] = useState();
-
-  let lmao;
-  useEffect(() => {
-    if (session && session.access_token)
-     lmao = callAPI("GET", "expertises", session?.access_token);
-    console.log(lmao);
-  }, [session])
+interface signInProps {
+  session : Session | null | undefined
+}
+export default function SignInComponent({session} : signInProps) {
 
   return (
     <div>
