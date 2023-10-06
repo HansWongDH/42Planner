@@ -9,7 +9,7 @@ export default function SignInComponent() {
     <div>
       {session ? (
         <div>
-          <p>Welcome</p>
+          <p>Welcome {session.user?.name}</p>
           <button onClick={() => signOut()}>Sign out</button>
         </div>
       ) : (
