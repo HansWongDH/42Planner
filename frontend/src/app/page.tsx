@@ -1,5 +1,5 @@
 'use client'
-import { useSession, signIn, signOut, SessionProvider, getSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import SignInComponent from './components/SignInComponent';
 import { useEffect, useState } from 'react';
 import { Session } from 'next-auth';
