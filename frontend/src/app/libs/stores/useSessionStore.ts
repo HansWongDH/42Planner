@@ -5,11 +5,11 @@ import { create } from "zustand";
 interface sessionStore {
 	data: {
 		session: Session | null | undefined;
-		accessToken: string;
+		accessToken: string | null;
 	};
 	actions :{
 		getSession: () => Session | null | undefined;
-		getAccessToken: () => string;
+		getAccessToken: () => string | null;
 		setSession: (session: Session) => void;
 		setAccessToken: (accessToken: string) => void; 
 	}
@@ -49,7 +49,7 @@ interface sessionStore {
 	const useSessionStore = create<sessionStore>()((set, get) => ({
 		data: {
 			session: undefined,
-			accessToken: "",
+			accessToken: null,
 		},
 		actions: {
 			getSession: () => getSession(get),

@@ -3,6 +3,7 @@ import { getSession } from 'next-auth/react';
 import SignInComponent from './components/SignInComponent';
 import { useEffect, useState } from 'react';
 import { Session } from 'next-auth';
+import ExampleApiCall from './components/exampleApiCall';
 
 function Homepage() {
   const [session, setSession] = useState<Session | null | undefined>();
@@ -13,8 +14,10 @@ function Homepage() {
     }
     fetchSession();
   }, []);
-  return (
+  return (<div>
     <SignInComponent session={session} />
+    <ExampleApiCall></ExampleApiCall>
+    </div>
   )
 }
 

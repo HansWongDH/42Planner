@@ -3,12 +3,15 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import callAPI from '../libs/CallApi';
 import { useEffect, useState } from 'react';
 import { Session } from 'next-auth';
+import { useSessionAction } from '../libs/stores/useSessionStore';
 
 interface signInProps {
   session : Session | null | undefined
 }
 export default function SignInComponent({session} : signInProps) {
-
+  const sessionAction = useSessionAction();
+  if (session && session.access_token)
+    sessionAction.setAccessToken(session.access_token)
   return (
     <div>
       {session ? (
