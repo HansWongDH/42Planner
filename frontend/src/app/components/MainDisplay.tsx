@@ -1,18 +1,24 @@
 "use client";
-import { Box } from "@chakra-ui/react";
-import { Button } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { Box, Button, Flex } from "@chakra-ui/react";
+import { useState } from "react";
+import ProgressCard from "./Progress/ProgressCard";
+import ProgressPercentageBar from "./Progress/ProgressPercentageBar";
 
 export default function MainDisplay() {
   const [displayGame, setDisplayGame] = useState(false);
 
-  useEffect(() => {});
-
   return (
-    <>
-      <Box bg="tomato" w="100%" p={4} color="white">
-        This is the Box
-      </Box>
-    </>
+    <Box padding="auto">
+      <Flex margin={4}>
+        <ProgressCard level={1}></ProgressCard>
+        <ProgressCard level={2}></ProgressCard>
+        <ProgressCard level={3}></ProgressCard>
+        <ProgressCard level={4}></ProgressCard>
+        <ProgressCard level={5}></ProgressCard>
+        <ProgressCard level={6}></ProgressCard>
+        <ProgressCard level={7}></ProgressCard>
+      </Flex>
+      <ProgressPercentageBar percentage={30}></ProgressPercentageBar>
+    </Box>
   );
 }
