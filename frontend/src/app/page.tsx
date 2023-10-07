@@ -7,6 +7,7 @@ import ExampleApiCall from "./components/exampleApiCall";
 import MainDisplay from "./components/MainDisplay";
 import CadetProfile from "./components/profile/CadetProfile";
 import AverageHourPerWweek from "./components/profile/AverageHourPerWeek";
+import Timetable from "./components/timetable/timetable";
 
 function Homepage() {
   const [session, setSession] = useState<Session | null | undefined>();
@@ -23,6 +24,7 @@ function Homepage() {
       <MainDisplay></MainDisplay>
       <CadetProfile></CadetProfile>
       <AverageHourPerWweek></AverageHourPerWweek>
+      <Timetable></Timetable>
     </div>
   );
 }
