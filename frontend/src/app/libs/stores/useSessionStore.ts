@@ -7,6 +7,7 @@ interface sessionStore {
     session: Session | null | undefined;
     accessToken: string | null;
     user: UserData | null;
+    display: boolean;
   };
   actions: {
     getSession: () => Session | null | undefined;
@@ -15,6 +16,7 @@ interface sessionStore {
     setSession: (session: Session) => void;
     setAccessToken: (accessToken: string) => void;
     setUser: (user: UserData) => void;
+    setDisplay: (display: boolean) => void;
   };
 }
 
@@ -62,11 +64,21 @@ function setUser(set: StoreSetter, user: UserData) {
     },
   }));
 }
+
+function setDisplay(set: StoreSetter, display: boolean) {
+  set(({ data }) => ({
+    data: {
+      ...data,
+      display: display,
+    },
+  }));
+}
 const useSessionStore = create<sessionStore>()((set, get) => ({
   data: {
     session: undefined,
     accessToken: null,
     user: null,
+    display: false,
   },
   actions: {
     getSession: () => getSession(get),
@@ -75,6 +87,7 @@ const useSessionStore = create<sessionStore>()((set, get) => ({
     setSession: (session) => setSession(set, session),
     setAccessToken: (accessToken) => setAccessToken(set, accessToken),
     setUser: (userData) => setUser(set, userData),
+    setDisplay: (display) => setDisplay(set, display),
   },
 }));
 
@@ -82,5 +95,7 @@ export const useCurrentSession = () =>
   useSessionStore((state) => state.data.session);
 export const useAccessToken = () =>
   useSessionStore((state) => state.data.accessToken);
+export const useCurrentDisplay = () =>
+  useSessionStore((state) => state.data.display);
 export const useCurrentUser = () => useSessionStore((state) => state.data.user);
 export const useSessionAction = () => useSessionStore((state) => state.actions);

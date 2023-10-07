@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Box, Table, Tbody, Tr, Td } from "@chakra-ui/react";
+import { Box, Table, Tbody, Tr, Td, Collapse } from "@chakra-ui/react";
+import { useCurrentDisplay } from "@/app/libs/stores/useSessionStore";
 
-function Timetable() {
+export default function Timetable() {
+  const currentDisplay = useCurrentDisplay();
   const daysOfWeek = [
     "Monday",
     "Tuesday",
@@ -68,57 +70,57 @@ function Timetable() {
   }
   console.log(findCellFlag(daysOfWeek[3], 10));
   return (
-    <Box>
-      <Table borderWidth="1px" borderColor="black" variant="unstyled">
-        <Tbody>
-          <Tr>
-            <Td></Td>
-            {currentWeek.map((date, index) => (
-              <Td
-                key={index}
-                borderWidth="1px"
-                borderColor="black"
-                p="2"
-                bg="white"
-                textAlign="center"
-              >
-                {daysOfWeek[index]} {date.toLocaleDateString()}
-              </Td>
-            ))}
-          </Tr>
-          {hoursOfDay.map((hour) => (
-            <Tr key={hour}>
-              <Td
-                borderWidth="1px"
-                borderColor="black"
-                p="2"
-                bg="white"
-                textAlign="right"
-              >
-                {`${hour}:00`}
-              </Td>
+    <Collapse in={currentDisplay}>
+      <Box>
+        <Table borderWidth="1px" borderColor="black" variant="unstyled">
+          <Tbody>
+            <Tr>
+              <Td></Td>
               {currentWeek.map((date, index) => (
                 <Td
-                  key={`${daysOfWeek[index]}-${hour}`}
+                  key={index}
                   borderWidth="1px"
                   borderColor="black"
-                  bg={
-                    findCellFlag(daysOfWeek[index], hour) == null
-                      ? "white"
-                      : findCellFlag(daysOfWeek[index], hour)
-                      ? "red.100"
-                      : "cyan.100"
-                  }
-                  _hover={{ cursor: "pointer", background: "teal.200" }}
-                  onClick={() => handleCellClick(daysOfWeek[index], hour)}
-                ></Td>
+                  p="2"
+                  bg="white"
+                  textAlign="center"
+                >
+                  {daysOfWeek[index]} {date.toLocaleDateString()}
+                </Td>
               ))}
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </Box>
+            {hoursOfDay.map((hour) => (
+              <Tr key={hour}>
+                <Td
+                  borderWidth="1px"
+                  borderColor="black"
+                  p="2"
+                  bg="white"
+                  textAlign="right"
+                >
+                  {`${hour}:00`}
+                </Td>
+                {currentWeek.map((date, index) => (
+                  <Td
+                    key={`${daysOfWeek[index]}-${hour}`}
+                    borderWidth="1px"
+                    borderColor="black"
+                    bg={
+                      findCellFlag(daysOfWeek[index], hour) == null
+                        ? "white"
+                        : findCellFlag(daysOfWeek[index], hour)
+                        ? "red.100"
+                        : "cyan.100"
+                    }
+                    _hover={{ cursor: "pointer", background: "teal.200" }}
+                    onClick={() => handleCellClick(daysOfWeek[index], hour)}
+                  ></Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Box>
+    </Collapse>
   );
 }
-
-export default Timetable;

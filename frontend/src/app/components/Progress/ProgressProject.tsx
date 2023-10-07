@@ -1,3 +1,9 @@
+"use client";
+
+import {
+  useCurrentDisplay,
+  useSessionAction,
+} from "@/app/libs/stores/useSessionStore";
 import { Box, Button } from "@chakra-ui/react";
 
 interface ProgessProjectProps {
@@ -5,12 +11,18 @@ interface ProgessProjectProps {
   splitProjectName?: string;
 }
 
-function onClickHandler() {}
-
 export default function ProgressProject({
   projectName,
   splitProjectName,
 }: ProgessProjectProps) {
+  const currentDisplay = useCurrentDisplay();
+  const { setDisplay } = useSessionAction();
+
+  function onClickHandler() {
+    // console.log(currentDisplay);
+    setDisplay(!currentDisplay);
+  }
+
   return splitProjectName ? (
     <Box display="flex">
       <Box
@@ -24,7 +36,7 @@ export default function ProgressProject({
         border="3px solid black"
         marginRight="2px"
       >
-        <Button>{projectName}</Button>
+        <Button onClick={onClickHandler}>{projectName}</Button>
       </Box>
       <Box
         display="flex"
@@ -37,7 +49,7 @@ export default function ProgressProject({
         border="3px solid black"
         marginLeft="2px"
       >
-        <Button> {splitProjectName}</Button>
+        <Button onClick={onClickHandler}> {splitProjectName}</Button>
       </Box>
     </Box>
   ) : (
@@ -51,7 +63,7 @@ export default function ProgressProject({
       paddingRight="0.8vw"
       border="3px solid black"
     >
-      <Button>{projectName}</Button>
+      <Button onClick={onClickHandler}>{projectName}</Button>
     </Box>
   );
 }

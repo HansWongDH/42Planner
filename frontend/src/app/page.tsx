@@ -8,6 +8,7 @@ import MainDisplay from "./components/MainDisplay";
 import CadetProfile from "./components/profile/CadetProfile";
 import AverageHourPerWweek from "./components/profile/AverageHourPerWeek";
 import Timetable from "./components/timetable/timetable";
+import { Collapse } from "@chakra-ui/react";
 
 function Homepage() {
   const [session, setSession] = useState<Session | null | undefined>();
@@ -21,9 +22,9 @@ function Homepage() {
   return (
     <div>
       <SignInComponent session={session} />
-      <MainDisplay></MainDisplay>
       <CadetProfile></CadetProfile>
       <AverageHourPerWweek></AverageHourPerWweek>
+      <MainDisplay></MainDisplay>
       <Timetable></Timetable>
     </div>
   );

@@ -74,7 +74,7 @@ function levelHandler(level: number) {
   if (level == 7) {
     return (
       <VStack spacing={4} alignItems="center">
-        <ProgressProject projectName="ft_trascendence"></ProgressProject>
+        <ProgressProject projectName="ft_transcendence"></ProgressProject>
       </VStack>
     );
   }

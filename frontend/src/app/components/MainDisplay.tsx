@@ -1,12 +1,9 @@
 "use client";
-import { Box, Button, Flex } from "@chakra-ui/react";
-import { useState } from "react";
+import { Box, Flex } from "@chakra-ui/react";
 import ProgressCard from "./Progress/ProgressCard";
 import ProgressPercentageBar from "./Progress/ProgressPercentageBar";
 
 export default function MainDisplay() {
-  const [displayGame, setDisplayGame] = useState(false);
-
   return (
     <Box padding="auto">
       <Flex margin={4}>
