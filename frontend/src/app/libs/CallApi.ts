@@ -4,7 +4,6 @@ export default async function callAPI(
   access_token: string,
   messageBody?: any
 ): Promise<any> {
-  console.log("accesstoken :", access_token);
   const domain = "https://api.intra.42.fr/v2/";
   const response = await fetch(domain + route, {
     method: method,
