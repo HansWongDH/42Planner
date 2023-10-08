@@ -6,6 +6,7 @@ import {
 } from "@/app/libs/stores/useSessionStore";
 import { Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import ProjectCalendar from "../project_calendar.tsx/ProjectCalendar";
 
 interface EstimatedTimeTakenProps {
   project_id: number | undefined;
@@ -26,6 +27,7 @@ function DaysToComplete(
   const hourTaken = dayTaken * (averageHour / 7);
   const dayRemains = Math.round((hourNeeded - hourTaken) / (averageHour / 7));
   console.log(dayTaken, "----", hourTaken);
+  if (dayRemains < 0) return 10;
   return dayRemains;
 }
 
@@ -58,5 +60,10 @@ export default function EstimatedTimeTaken({
           estimatedTime
         )
       : 0;
-  return <Box>Estimated Time to complete : {dayRemains} days</Box>;
+  return (
+    <Box>
+      <text>Estimated Time to complete : {dayRemains} day</text>
+      <ProjectCalendar days={dayRemains}></ProjectCalendar>;
+    </Box>
+  );
 }
