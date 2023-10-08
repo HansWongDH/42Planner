@@ -105,12 +105,13 @@ export default function AverageHourPerWweek() {
       setTimeData(data.body);
     }
     if (currentUser) fetchDays(currentUser.id, accessToken ?? "");
-  }, [currentUser, accessToken]);
-  if (!timeData) return;
+
+  }, []);
   //   console.log(timeData);
-  const timeInfo: timeInfo[] = convertDatesToGMT8(timeData);
+  let timeInfo: timeInfo[] = [];
+  if (timeData)
+    timeInfo = convertDatesToGMT8(timeData);
   const averageHour = calculateAverageHourPerWeek(dateToWeek(timeInfo));
   if (currentUser)
-  console.log(currentUser.projects_users)
-  return <div>AverageHour: {averageHour}</div>;
+  return (timeData === null ? 0 : <div>AverageHour: {averageHour}</div>)
 }

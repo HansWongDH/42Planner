@@ -22,6 +22,7 @@ export default function CadetProfile() {
     if (accessToken) {
       fetchPersonalData(accessToken);
     }
+
   }, [accessToken]);
 
   if (!currentSession || !accessToken || !userData) return;
