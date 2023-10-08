@@ -10,7 +10,7 @@ import AverageHourPerWweek from "./components/profile/AverageHourPerWeek";
 import Timetable from "./components/timetable/timetable";
 import { Collapse } from "@chakra-ui/react";
 import DeathCalendar from "./components/bhd_calendar/BlackholeCalendar";
-import ProjectCalendar from "./components/project_calculator.tsx/ProjectCalendar";
+import ProjectCalendar from "./components/project_calendar.tsx/ProjectCalendar";
 
 function Homepage() {
   const [session, setSession] = useState<Session | null | undefined>();

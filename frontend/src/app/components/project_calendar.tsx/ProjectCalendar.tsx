@@ -11,12 +11,11 @@ interface Deadline {
   days: number;
 }
 
-export default function ProjectCalendar() {
+export default function ProjectCalendar({ days }: Deadline) {
+  const now_date = new Date();
   const deadline_date = new Date(
-    2023,
-    11,
-    20
-  ); /* To be swapped out for the real date */
+    now_date.getTime() + days * 24 * 60 * 60 * 1000
+  );
   const [range, setRange] = useState<Value>([new Date(), new Date()]);
 
   useEffect(() => {
