@@ -17,6 +17,7 @@ export default function ProgressProject({
   splitProjectName,
   projectSlug,
 }: ProgessProjectProps) {
+  console.log(projectName);
   const currentUser = useCurrentUser();
 
   if (!currentUser) return;
@@ -28,8 +29,15 @@ export default function ProgressProject({
     ); // Returns if the map.project.name exist as either one of the three
   });
 
+  function helperft(projectData: ProgressProjectData | null) {
+    if (!projectData) {
+      return null;
+    }
+    return projectData?.status;
+  }
+
   const projectData: ProgressProjectData = {
-    projectName: "",
+    projectName: projectName,
     projectID: 0,
     projectStart: "",
     isSplitProject: undefined,
@@ -38,22 +46,34 @@ export default function ProgressProject({
   };
 
   projectData.projectName = data?.project.name;
+
   if (projectSlug) {
     projectData.projectName = projectSlug;
     projectData.isProjectSlug = true;
   }
+
   if (splitProjectName) {
     projectData.isSplitProject = splitProjectName;
   }
+
   projectData.status = data?.status;
   projectData.projectID = data?.project.id;
   projectData.projectStart = data?.created_at;
 
+  if (!projectData.projectName) {
+    projectData.projectName = projectName;
+  }
   // console.log("-----------------DATA: ", data, " -----------------");
   // console.log(
   //   "Blackholes obtained",
   //   blackHoleDayCalculator(currentExp, ProjectList.LIBFT)
   // );
 
-  return <ProgressProjectBox projectData={projectData}></ProgressProjectBox>;
+  return (
+    <ProgressProjectBox
+      projectName={projectName}
+      splitProjectName={splitProjectName}
+      projectData={projectData}
+    ></ProgressProjectBox>
+  );
 }

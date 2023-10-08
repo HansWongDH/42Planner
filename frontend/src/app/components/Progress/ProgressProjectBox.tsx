@@ -8,10 +8,14 @@ import EstimatedTimeTaken from "../profile/EstimatedTimeTaken";
 import { ProgressProjectData } from "@/app/types/Types";
 
 interface ProgressProjectBoxProps {
+  projectName: string;
+  splitProjectName?: string;
   projectData: ProgressProjectData;
 }
 
 export default function ProgressProjectBox({
+  projectName,
+  splitProjectName,
   projectData,
 }: ProgressProjectBoxProps) {
   const { setDisplay } = useSessionAction();
@@ -53,7 +57,7 @@ export default function ProgressProjectBox({
         marginRight={projectData.isSplitProject ? "2px" : "0px"}
         bg={determineColor(projectData)}
       >
-        {projectData.projectName}
+        {projectName}
         {projectData.status === "in_progress" ? (
           <Collapse in={showEst}>
             <EstimatedTimeTaken
@@ -63,7 +67,7 @@ export default function ProgressProjectBox({
           </Collapse>
         ) : null}
       </Box>
-      {projectData.isSplitProject ? (
+      {splitProjectName ? (
         <Box
           onClick={onClickHandler}
           display="flex"
@@ -77,7 +81,7 @@ export default function ProgressProjectBox({
           marginLeft="2px"
           bg="white"
         >
-          {projectData.isSplitProject}
+          {splitProjectName}
         </Box>
       ) : null}
     </Box>
