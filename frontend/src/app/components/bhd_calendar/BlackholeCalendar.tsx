@@ -19,7 +19,6 @@ export default function DeathCalendar() {
       setDeathDate(temp);
     }
     if (death_date) {
-      console.log("AAAAAAAAAAAAAAAAAA");
       setDate([new Date(), new Date(death_date)]);
     }
   }, [currentUser, death_date]);
