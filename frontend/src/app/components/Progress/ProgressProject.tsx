@@ -20,7 +20,7 @@ interface ProgessProjectProps {
 export default function ProgressProject({
   projectName,
   splitProjectName,
-  projectSlug
+  projectSlug,
 }: ProgessProjectProps) {
   const [showEst, setShowEst] = useState(false);
   const currentDisplay = useCurrentDisplay();
@@ -29,13 +29,26 @@ export default function ProgressProject({
   const accessToken = useAccessToken();
   if (!currentUser) return;
   const data = currentUser.projects_users.find((map) => {
-  return (map.project.name === projectName || map.project.name === splitProjectName || map.project.name === projectSlug)})
-  const inProgress = data ? (data.status === "in_progress" ? true : false) : null;
-  const backgroundColor = inProgress === true ? "yellow.100" : inProgress === false ? "gray" : "white";
- 
+    return (
+      map.project.name === projectName ||
+      map.project.name === splitProjectName ||
+      map.project.name === projectSlug
+    );
+  });
+  const inProgress = data
+    ? data.status === "in_progress"
+      ? true
+      : false
+    : null;
+  const backgroundColor =
+    inProgress === true
+      ? "yellow.100"
+      : inProgress === false
+      ? "gray"
+      : "white";
+
   function onClickHandler() {
-    if (inProgress === true)
-    {
+    if (inProgress === true) {
       setDisplay(!currentDisplay);
       setShowEst(!showEst);
     }
@@ -70,7 +83,14 @@ export default function ProgressProject({
       >
         <Button onClick={onClickHandler}> {splitProjectName}</Button>
       </Box>
-      <Collapse in={showEst}><EstimatedTimeTaken project_id={data?.project.id} inProgress={inProgress} /></Collapse>
+      {inProgress ? (
+        <Collapse in={showEst}>
+          <EstimatedTimeTaken
+            project_id={data?.project.id}
+            start_at={data?.created_at}
+          />
+        </Collapse>
+      ) : null}
     </Box>
   ) : (
     <Box
@@ -85,8 +105,14 @@ export default function ProgressProject({
       bg={backgroundColor}
     >
       <Button onClick={onClickHandler}>{projectName}</Button>
-      <Collapse in={showEst}><EstimatedTimeTaken project_id={data?.project.id} inProgress={inProgress} /></Collapse>
+      {inProgress ? (
+        <Collapse in={showEst}>
+          <EstimatedTimeTaken
+            project_id={data?.project.id}
+            start_at={data?.created_at}
+          />
+        </Collapse>
+      ) : null}
     </Box>
-  
   );
 }

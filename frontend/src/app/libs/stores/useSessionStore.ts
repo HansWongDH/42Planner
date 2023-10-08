@@ -9,6 +9,7 @@ interface sessionStore {
     accessToken: string | null;
     user: UserData | null;
     display: boolean;
+    averageHour: number;
   };
   actions: {
     getSession: () => Session | null | undefined;
@@ -18,6 +19,7 @@ interface sessionStore {
     setAccessToken: (accessToken: string) => void;
     setUser: (user: UserData) => void;
     setDisplay: (display: boolean) => void;
+    setAverageHour: (averageHour: number) => void;
   };
 }
 
@@ -74,12 +76,22 @@ function setDisplay(set: StoreSetter, display: boolean) {
     },
   }));
 }
+
+function setAverageHour(set: StoreSetter, averageHour: number) {
+  set(({ data }) => ({
+    data: {
+      ...data,
+      averageHour: averageHour,
+    },
+  }));
+}
 const useSessionStore = create<sessionStore>()((set, get) => ({
   data: {
     session: undefined,
     accessToken: null,
     user: null,
     display: false,
+    averageHour: 0,
   },
   actions: {
     getSession: () => getSession(get),
@@ -89,6 +101,7 @@ const useSessionStore = create<sessionStore>()((set, get) => ({
     setAccessToken: (accessToken) => setAccessToken(set, accessToken),
     setUser: (userData) => setUser(set, userData),
     setDisplay: (display) => setDisplay(set, display),
+    setAverageHour: (averageHour) => setAverageHour(set, averageHour)
   },
 }));
 
@@ -99,4 +112,5 @@ export const useAccessToken = () =>
 export const useCurrentDisplay = () =>
   useSessionStore((state) => state.data.display);
 export const useCurrentUser = () => useSessionStore((state) => state.data.user);
+export const useCurrentAverageHour  = () => useSessionStore((state) => state.data.averageHour);
 export const useSessionAction = () => useSessionStore((state) => state.actions);
