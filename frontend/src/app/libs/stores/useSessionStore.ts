@@ -1,15 +1,19 @@
 import { UserData } from "@/app/types/userData";
+import { displayType } from "@/app/types/displayType";
 import { Session, User } from "next-auth";
 
 import { create } from "zustand";
+import { timeSlot } from "@/app/types/timeSlotType";
 
 interface sessionStore {
   data: {
     session: Session | null | undefined;
     accessToken: string | null;
     user: UserData | null;
-    display: boolean;
+    display: displayType;
     averageHour: number;
+    mentorTimeSlot: timeSlot[];
+    studentTimeSlot: timeSlot[];
   };
   actions: {
     getSession: () => Session | null | undefined;
@@ -18,8 +22,10 @@ interface sessionStore {
     setSession: (session: Session) => void;
     setAccessToken: (accessToken: string) => void;
     setUser: (user: UserData) => void;
-    setDisplay: (display: boolean) => void;
+    setDisplay: (display: displayType) => void;
     setAverageHour: (averageHour: number) => void;
+    setMentorTimeSlot: (timeslot: timeSlot[]) => void;
+    setStudentTimeSlot: (timeslot: timeSlot[]) => void;
   };
 }
 
@@ -41,6 +47,7 @@ function getUser(get: StoreGetter) {
   const userData = get().data.user;
   return userData;
 }
+
 function setSession(set: StoreSetter, session: Session) {
   set(({ data }) => ({
     data: {
@@ -68,7 +75,7 @@ function setUser(set: StoreSetter, user: UserData) {
   }));
 }
 
-function setDisplay(set: StoreSetter, display: boolean) {
+function setDisplay(set: StoreSetter, display: displayType) {
   set(({ data }) => ({
     data: {
       ...data,
@@ -85,13 +92,34 @@ function setAverageHour(set: StoreSetter, averageHour: number) {
     },
   }));
 }
+
+function setMentorTimeSlot(set: StoreSetter, studentTimeSlot: timeSlot[]) {
+  set(({ data }) => ({
+    data: {
+      ...data,
+      studentTimeSlot: studentTimeSlot,
+    },
+  }));
+}
+
+function setStudentTimeSlot(set: StoreSetter, studentTimeSlot: timeSlot[]) {
+  set(({ data }) => ({
+    data: {
+      ...data,
+      studentTimeSlot: studentTimeSlot,
+    },
+  }));
+}
+
 const useSessionStore = create<sessionStore>()((set, get) => ({
   data: {
     session: undefined,
     accessToken: null,
     user: null,
-    display: false,
+    display: { user: "student", isOpen: false },
     averageHour: 0,
+    mentorTimeSlot: [],
+    studentTimeSlot: [],
   },
   actions: {
     getSession: () => getSession(get),
@@ -101,7 +129,9 @@ const useSessionStore = create<sessionStore>()((set, get) => ({
     setAccessToken: (accessToken) => setAccessToken(set, accessToken),
     setUser: (userData) => setUser(set, userData),
     setDisplay: (display) => setDisplay(set, display),
-    setAverageHour: (averageHour) => setAverageHour(set, averageHour)
+    setAverageHour: (averageHour) => setAverageHour(set, averageHour),
+    setMentorTimeSlot: (timeslot) => setMentorTimeSlot(set, timeslot),
+    setStudentTimeSlot: (timeslot) => setStudentTimeSlot(set, timeslot),
   },
 }));
 
@@ -112,5 +142,10 @@ export const useAccessToken = () =>
 export const useCurrentDisplay = () =>
   useSessionStore((state) => state.data.display);
 export const useCurrentUser = () => useSessionStore((state) => state.data.user);
-export const useCurrentAverageHour  = () => useSessionStore((state) => state.data.averageHour);
+export const useCurrentAverageHour = () =>
+  useSessionStore((state) => state.data.averageHour);
+export const useCurrentMentorSlot = () =>
+  useSessionStore((state) => state.data.mentorTimeSlot);
+export const useCurrentStudentSlot = () =>
+  useSessionStore((state) => state.data.studentTimeSlot);
 export const useSessionAction = () => useSessionStore((state) => state.actions);
