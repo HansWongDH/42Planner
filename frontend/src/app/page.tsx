@@ -27,14 +27,24 @@ function Homepage() {
     fetchSession();
   }, []);
   return (
-    <div>
-      <SignInComponent />
-      <CadetProfile></CadetProfile>
-      <AverageHourPerWweek></AverageHourPerWweek>
+    <Box>
+      <Box>
+        <Box
+          p={4}
+          backgroundColor="beige"
+          borderRadius="md"
+          boxShadow="lg"
+          margin="0 auto"
+        >
+          <SignInComponent />
+          <CadetProfile></CadetProfile>
+          <AverageHourPerWweek></AverageHourPerWweek>
+        </Box>
+        <DeathCalendar></DeathCalendar>
+      </Box>
       <MainDisplay></MainDisplay>
       <Timetable></Timetable>
-      <DeathCalendar></DeathCalendar>
-    </div>
+    </Box>
   );
 }
 

@@ -7,6 +7,7 @@ import {
   useCurrentSession,
   useSessionAction,
 } from "../libs/stores/useSessionStore";
+import { Box, Button, Heading, Text } from "@chakra-ui/react";
 
 interface signInProps {
   session: Session | null | undefined;
@@ -14,18 +15,32 @@ interface signInProps {
 export default function SignInComponent() {
   const session = useCurrentSession();
   return (
-    <div>
+    <Box>
       {session ? (
-        <div>
-          <p>Welcome {session.user?.name}</p>
-          <button onClick={() => signOut()}>Sign out</button>
-        </div>
+        <Box>
+          <Heading>Welcome {session.user?.name}</Heading>
+          <Button
+            onClick={() => signOut()}
+            colorScheme="red" // Set the button color to red
+            variant="outline" // Use an outline style for the button
+            mt={4} // Add margin-top for spacing
+          >
+            Sign Out
+          </Button>
+        </Box>
       ) : (
-        <div>
-          <p>You are not logged in.</p>
-          <button onClick={() => signIn("42-school")}>Sign in</button>
-        </div>
+        <Box>
+          <Heading>You are not logged in.</Heading>
+          <Button
+            onClick={() => signIn("42-school")}
+            colorScheme="blue" // Set the button color to blue
+            variant="outline" // Use a solid style for the button
+            mt={4} // Add margin-top for spacing
+          >
+            Sign In
+          </Button>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }

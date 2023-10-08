@@ -27,11 +27,10 @@ export default function CadetProfile() {
 
   if (!currentSession || !accessToken || !userData) return;
   return (
-    <Box>
+    <Box p={4}>
       <Wrap>
         <WrapItem>
           <Avatar size="2xl" name="lmao" src={currentSession.avatarURL} />
-          <Heading>{userData?.displayname}</Heading>
         </WrapItem>
       </Wrap>
     </Box>
