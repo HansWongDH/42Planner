@@ -9,6 +9,7 @@ import CadetProfile from "./components/profile/CadetProfile";
 import AverageHourPerWweek from "./components/profile/AverageHourPerWeek";
 import Timetable from "./components/timetable/timetable";
 import { Collapse } from "@chakra-ui/react";
+import DeathCalendar from "./components/bhd_calendar/BlackholeCalendar";
 
 function Homepage() {
   const [session, setSession] = useState<Session | null | undefined>();
@@ -26,6 +27,7 @@ function Homepage() {
       <AverageHourPerWweek></AverageHourPerWweek>
       <MainDisplay></MainDisplay>
       <Timetable></Timetable>
+      <DeathCalendar></DeathCalendar>
     </div>
   );
 }
