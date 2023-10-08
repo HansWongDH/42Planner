@@ -28,14 +28,15 @@ function Homepage() {
   }, []);
   return (
     <Box>
-      <Box>
-        <Box
-          p={4}
-          backgroundColor="beige"
-          borderRadius="md"
-          boxShadow="lg"
-          margin="0 auto"
-        >
+      <Box
+        display={"flex"}
+        p={4}
+        backgroundColor="beige"
+        borderRadius="md"
+        boxShadow="lg"
+        margin="0 auto"
+      >
+        <Box marginRight={"500px"}>
           <SignInComponent />
           <CadetProfile></CadetProfile>
           <AverageHourPerWweek></AverageHourPerWweek>
