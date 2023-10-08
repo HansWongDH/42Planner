@@ -50,11 +50,10 @@ export default function ProgressProject({
   projectData.projectStart = data?.created_at;
 
   // console.log("-----------------DATA: ", data, " -----------------");
-  console.log(
-    "Blackholes obtained",
-    blackHoleDayCalculator(currentExp, ProjectList.LIBFT)
-  );
-  console.log("hello");
+  // console.log(
+  //   "Blackholes obtained",
+  //   blackHoleDayCalculator(currentExp, ProjectList.LIBFT)
+  // );
 
   return <ProgressProjectBox projectData={projectData}></ProgressProjectBox>;
 }
