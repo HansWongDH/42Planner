@@ -2,6 +2,7 @@
 
 import {
   useCurrentDisplay,
+  useCurrentUser,
   useSessionAction,
 } from "@/app/libs/stores/useSessionStore";
 import { Box, Button } from "@chakra-ui/react";
@@ -9,17 +10,24 @@ import { Box, Button } from "@chakra-ui/react";
 interface ProgessProjectProps {
   projectName: string;
   splitProjectName?: string;
+  projectSlug?: string;
 }
 
 export default function ProgressProject({
   projectName,
   splitProjectName,
+  projectSlug
 }: ProgessProjectProps) {
+  
   const currentDisplay = useCurrentDisplay();
   const { setDisplay } = useSessionAction();
-
+  const currentUser = useCurrentUser();
+  if (!currentUser) return;
+  const data = currentUser.projects_users.find((map) => {
+  return (map.project.name === projectName || map.project.name === splitProjectName || map.project.name === projectSlug)})
+  const inProgress = data ? (data.status === "in_progress" ? true : false) : null;
+  const backgroundColor = inProgress === true ? "yellow.100" : inProgress === false ? "gray" : "white";
   function onClickHandler() {
-    // console.log(currentDisplay);
     setDisplay(!currentDisplay);
   }
 
@@ -35,6 +43,7 @@ export default function ProgressProject({
         paddingRight="0.8vw"
         border="3px solid black"
         marginRight="2px"
+        bg={backgroundColor}
       >
         <Button onClick={onClickHandler}>{projectName}</Button>
       </Box>
@@ -62,6 +71,7 @@ export default function ProgressProject({
       paddingLeft="0.8vw"
       paddingRight="0.8vw"
       border="3px solid black"
+      bg={backgroundColor}
     >
       <Button onClick={onClickHandler}>{projectName}</Button>
     </Box>

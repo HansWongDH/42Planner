@@ -111,6 +111,6 @@ export default function AverageHourPerWweek() {
   const timeInfo: timeInfo[] = convertDatesToGMT8(timeData);
   const averageHour = calculateAverageHourPerWeek(dateToWeek(timeInfo));
   if (currentUser)
-  console.log(currentUser.cursus_users[1].blackholed_at)
+  console.log(currentUser.projects_users)
   return <div>AverageHour: {averageHour}</div>;
 }
