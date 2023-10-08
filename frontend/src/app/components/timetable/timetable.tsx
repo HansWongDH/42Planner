@@ -139,7 +139,9 @@ export default function Timetable() {
                           ? "red.100"
                           : "cyan.100"
                       }
-                      onClick={() => handleCellClick(daysOfWeek[index], hour)}
+                      onClick={() => {
+                        handleCellClick(daysOfWeek[index], hour);
+                      }}
                     ></Td>
                   ))}
                 </Tr>
