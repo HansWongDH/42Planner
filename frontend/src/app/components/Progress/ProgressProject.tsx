@@ -1,15 +1,14 @@
 "use client";
 
-import callAPI from "@/app/libs/CallApi";
 import {
   useAccessToken,
   useCurrentDisplay,
   useCurrentUser,
   useSessionAction,
 } from "@/app/libs/stores/useSessionStore";
-import { Box, Button, Collapse } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import EstimatedTimeTaken from "../profile/EstimatedTimeTaken";
+import { useState } from "react";
+import ProgressProjectBox from "./ProgressProjectBox";
+import { ProgressProjectData } from "@/app/types/Types";
 
 interface ProgessProjectProps {
   projectName: string;
@@ -27,92 +26,38 @@ export default function ProgressProject({
   const { setDisplay } = useSessionAction();
   const currentUser = useCurrentUser();
   const accessToken = useAccessToken();
+
   if (!currentUser) return;
   const data = currentUser.projects_users.find((map) => {
     return (
       map.project.name === projectName ||
       map.project.name === splitProjectName ||
       map.project.name === projectSlug
-    );
+    ); // Returns if the map.project.name exist as either one of the three
   });
-  const inProgress = data
-    ? data.status === "in_progress"
-      ? true
-      : false
-    : null;
-  const backgroundColor =
-    inProgress === true
-      ? "yellow.100"
-      : inProgress === false
-      ? "gray"
-      : "white";
 
-  function onClickHandler() {
-    if (inProgress === true) {
-      setDisplay(!currentDisplay);
-      setShowEst(!showEst);
-    }
+  const projectData: ProgressProjectData = {
+    projectName: "",
+    projectID: 0,
+    projectStart: "",
+    isSplitProject: undefined,
+    isProjectSlug: false,
+    status: undefined,
+  };
+
+  projectData.projectName = data?.project.name;
+  if (projectSlug) {
+    projectData.projectName = projectSlug;
+    projectData.isProjectSlug = true;
   }
+  if (splitProjectName) {
+    projectData.isSplitProject = splitProjectName;
+  }
+  projectData.status = data?.status;
+  projectData.projectID = data?.project.id;
+  projectData.projectStart = data?.created_at;
 
-  return splitProjectName ? (
-    <Box display="flex">
-      <Box
-        display="flex"
-        justifyContent="space-evenly"
-        alignItems="center"
-        width="7vw"
-        height="8vh"
-        paddingLeft="0.8vw"
-        paddingRight="0.8vw"
-        border="3px solid black"
-        marginRight="2px"
-        bg={backgroundColor}
-      >
-        <Button onClick={onClickHandler}>{projectName}</Button>
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="space-evenly"
-        alignItems="center"
-        width="7vw"
-        height="8vh"
-        paddingLeft="0.8vw"
-        paddingRight="0.8vw"
-        border="3px solid black"
-        marginLeft="2px"
-      >
-        <Button onClick={onClickHandler}> {splitProjectName}</Button>
-      </Box>
-      {inProgress ? (
-        <Collapse in={showEst}>
-          <EstimatedTimeTaken
-            project_id={data?.project.id}
-            start_at={data?.created_at}
-          />
-        </Collapse>
-      ) : null}
-    </Box>
-  ) : (
-    <Box
-      display="flex"
-      justifyContent="space-evenly"
-      alignItems="center"
-      width="14.2vw"
-      height="8vh"
-      paddingLeft="0.8vw"
-      paddingRight="0.8vw"
-      border="3px solid black"
-      bg={backgroundColor}
-    >
-      <Button onClick={onClickHandler}>{projectName}</Button>
-      {inProgress ? (
-        <Collapse in={showEst}>
-          <EstimatedTimeTaken
-            project_id={data?.project.id}
-            start_at={data?.created_at}
-          />
-        </Collapse>
-      ) : null}
-    </Box>
-  );
+  console.log("-----------------DATA: ", data, " -----------------");
+
+  return <ProgressProjectBox projectData={projectData}></ProgressProjectBox>;
 }
