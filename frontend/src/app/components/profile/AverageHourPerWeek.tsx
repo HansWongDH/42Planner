@@ -1,8 +1,10 @@
 import callAPI from "@/app/libs/CallApi";
 import {
   useAccessToken,
+  useCurrentAverageHour,
   useCurrentSession,
   useCurrentUser,
+  useSessionAction,
 } from "@/app/libs/stores/useSessionStore";
 import { useEffect, useState } from "react";
 
@@ -93,7 +95,9 @@ function calculateAverageHourPerWeek(data: number[]) {
 export default function AverageHourPerWweek() {
   const accessToken = useAccessToken();
   const currentUser = useCurrentUser();
-  const [timeData, setTimeData] = useState<locationStats[] | null>(null);
+  const sessionAction = useSessionAction();
+
+  const [timeData, setTimeData] = useState<locationStats[]>([]);
 
   useEffect(() => {
     async function fetchDays(userID: number, accessToken: string) {
@@ -105,12 +109,15 @@ export default function AverageHourPerWweek() {
       setTimeData(data.body);
     }
     if (currentUser) fetchDays(currentUser.id, accessToken ?? "");
-  }, [currentUser, accessToken]);
-  if (!timeData) return;
-  //   console.log(timeData);
-  const timeInfo: timeInfo[] = convertDatesToGMT8(timeData);
-  const averageHour = calculateAverageHourPerWeek(dateToWeek(timeInfo));
-  if (currentUser)
-  console.log(currentUser.projects_users)
+  }, [currentUser]);
+  useEffect(() => {
+    if (timeData.length != 0) {
+      const timeInfo: timeInfo[] = convertDatesToGMT8(timeData);
+      const averageHour = calculateAverageHourPerWeek(dateToWeek(timeInfo));
+      sessionAction.setAverageHour(averageHour);
+    }
+  }, [timeData]);
+
+  const averageHour = useCurrentAverageHour();
   return <div>AverageHour: {averageHour}</div>;
 }
