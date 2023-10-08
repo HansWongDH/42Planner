@@ -3,7 +3,6 @@ import {
   useSessionAction,
 } from "@/app/libs/stores/useSessionStore";
 import { Box, Collapse } from "@chakra-ui/react";
-import { Button } from "flowbite-react";
 import { useState } from "react";
 import EstimatedTimeTaken from "../profile/EstimatedTimeTaken";
 import { ProgressProjectData } from "@/app/types/Types";
