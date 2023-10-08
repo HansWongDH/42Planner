@@ -10,6 +10,11 @@ import { useEffect, useState } from "react";
 interface EstimatedTimeTakenProps {
   project_id: number | undefined;
   start_at: string | undefined;
+  status: "in_progress" | "finished" | undefined;
+}
+
+interface calenderProps {
+  end_date: Date;
 }
 function DaysToComplete(
   start_at: Date,
@@ -20,11 +25,17 @@ function DaysToComplete(
   if (dayTaken < 0) return 0;
   const hourTaken = dayTaken * (averageHour / 7);
   const dayRemains = Math.round((hourNeeded - hourTaken) / (averageHour / 7));
+  console.log(dayTaken, "----", hourTaken);
   return dayRemains;
+}
+
+export function cal({ end_date }: calenderProps) {
+  return end_date;
 }
 export default function EstimatedTimeTaken({
   project_id,
   start_at,
+  status,
 }: EstimatedTimeTakenProps) {
   const accessToken = useAccessToken();
   const [estimatedTime, setEstimatedTime] = useState(0);
@@ -39,10 +50,13 @@ export default function EstimatedTimeTaken({
     }
     fetchData();
   }, [CurrentDisplay]);
-  const dayRemains = DaysToComplete(
-    new Date(start_at ?? 0),
-    currentAverageHour,
-    estimatedTime
-  );
+  const dayRemains =
+    status == "in_progress"
+      ? DaysToComplete(
+          new Date(start_at ?? 0),
+          currentAverageHour,
+          estimatedTime
+        )
+      : 0;
   return <Box>Estimated Time to complete : {dayRemains} days</Box>;
 }

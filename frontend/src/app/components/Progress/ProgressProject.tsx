@@ -57,7 +57,5 @@ export default function ProgressProject({
   projectData.projectID = data?.project.id;
   projectData.projectStart = data?.created_at;
 
-  console.log("-----------------DATA: ", data, " -----------------");
-
   return <ProgressProjectBox projectData={projectData}></ProgressProjectBox>;
 }

@@ -2,8 +2,17 @@ import {
   useCurrentDisplay,
   useSessionAction,
 } from "@/app/libs/stores/useSessionStore";
-import { Box, Collapse } from "@chakra-ui/react";
-import { Button } from "flowbite-react";
+import {
+  Box,
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import EstimatedTimeTaken from "../profile/EstimatedTimeTaken";
 import { ProgressProjectData } from "@/app/types/Types";
@@ -17,7 +26,7 @@ export default function ProgressProjectBox({
 }: ProgressProjectBoxProps) {
   const { setDisplay } = useSessionAction();
   const currentDisplay = useCurrentDisplay();
-  const [showEst, setShowEst] = useState(false);
+  const [ShowBackdrop, setShowBackdrop] = useState(false);
 
   function determineColor(projectData: ProgressProjectData) {
     if (projectData.status === undefined) {
@@ -32,13 +41,17 @@ export default function ProgressProjectBox({
   }
 
   function onClickHandler() {
-    console.log("onClick Handler");
-    if (projectData.status === "in_progress") {
-      setDisplay(!currentDisplay);
-      setShowEst(!showEst);
-    }
+    setShowBackdrop(true);
   }
 
+  function onClose() {
+    setShowBackdrop(false);
+  }
+
+  function onTimetable(user: "mentor" | "student") {
+    setShowBackdrop(false);
+    setDisplay({ user: user, isOpen: true });
+  }
   return (
     <Box display="flex">
       <Box
@@ -55,14 +68,44 @@ export default function ProgressProjectBox({
         bg={determineColor(projectData)}
       >
         {projectData.projectName}
-        {projectData.status === "in_progress" ? (
-          <Collapse in={showEst}>
-            <EstimatedTimeTaken
-              project_id={projectData.projectID}
-              start_at={projectData.projectStart}
-            />
-          </Collapse>
-        ) : null}
+
+        <Modal isOpen={ShowBackdrop} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalCloseButton />
+            <ModalHeader>{projectData.projectName}</ModalHeader>
+            <ModalBody>
+              <EstimatedTimeTaken
+                project_id={projectData.projectID}
+                start_at={projectData.projectStart}
+                status={projectData.status}
+              />
+            </ModalBody>
+
+            <ModalFooter>
+              {projectData.status === "finished" ? (
+                <Button
+                  colorScheme="blue"
+                  mr={3}
+                  variant="ghost"
+                  onClick={() => onTimetable("mentor")}
+                >
+                  {" "}
+                  Become a Mentor
+                </Button>
+              ) : null}
+
+              <Button
+                colorScheme="green"
+                mr={3}
+                variant="ghost"
+                onClick={() => onTimetable("student")}
+              >
+                Subscribe for a mentor
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Box>
       {projectData.isSplitProject ? (
         <Box
