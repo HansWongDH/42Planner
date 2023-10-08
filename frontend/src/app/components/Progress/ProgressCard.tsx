@@ -11,7 +11,7 @@ function levelHandler(level: number) {
   if (level == 1) {
     return (
       <VStack spacing={4} alignItems="center">
-        <ProgressProject projectName="libft"></ProgressProject>
+        <ProgressProject projectName="Libft"></ProgressProject>
       </VStack>
     );
   }
@@ -20,7 +20,7 @@ function levelHandler(level: number) {
       <VStack spacing={4} alignItems="center">
         <ProgressProject projectName="get_next_line"></ProgressProject>
         <ProgressProject projectName="ft_printf"></ProgressProject>
-        <ProgressProject projectName="born2beroot"></ProgressProject>
+        <ProgressProject projectName="Born2beroot"></ProgressProject>
       </VStack>
     );
   }
@@ -43,14 +43,14 @@ function levelHandler(level: number) {
     return (
       <VStack spacing={4} alignItems="center">
         <ProgressProject projectName="minishell"></ProgressProject>
-        <ProgressProject projectName="philosophers"></ProgressProject>
+        <ProgressProject projectName="Philosophers"></ProgressProject>
       </VStack>
     );
   }
   if (level == 5) {
     return (
       <VStack spacing={4} alignItems="center">
-        <ProgressProject projectName="CPP (00 - 04)"></ProgressProject>
+        <ProgressProject projectName="CPP (00 - 04)" projectSlug="CPP Module 04"></ProgressProject>
         <ProgressProject projectName="NetPractice"></ProgressProject>
         <ProgressProject
           projectName="cub3d"
@@ -66,7 +66,7 @@ function levelHandler(level: number) {
           projectName="webserv"
           splitProjectName="ft_irc"
         ></ProgressProject>
-        <ProgressProject projectName="CPP (05 - 09)"></ProgressProject>
+        <ProgressProject projectName="CPP (05 - 09)" projectSlug="CPP Module 09"></ProgressProject>
         <ProgressProject projectName="Inception"></ProgressProject>
       </VStack>
     );

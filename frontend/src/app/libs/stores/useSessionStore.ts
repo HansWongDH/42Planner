@@ -1,5 +1,6 @@
+import { UserData } from "@/app/types/userData";
 import { Session, User } from "next-auth";
-import { UserData } from "next-auth/providers/42-school";
+
 import { create } from "zustand";
 
 interface sessionStore {
