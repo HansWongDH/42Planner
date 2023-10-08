@@ -1,3 +1,4 @@
+"use client";
 import callAPI from "@/app/libs/CallApi";
 import {
   useAccessToken,
@@ -5,7 +6,7 @@ import {
   useCurrentUser,
   useSessionAction,
 } from "@/app/libs/stores/useSessionStore";
-import { Avatar, Heading, Wrap, WrapItem } from "@chakra-ui/react";
+import { Avatar, Box, Heading, Wrap, WrapItem } from "@chakra-ui/react";
 import { useEffect } from "react";
 
 export default function CadetProfile() {
@@ -22,16 +23,17 @@ export default function CadetProfile() {
     if (accessToken) {
       fetchPersonalData(accessToken);
     }
-
   }, [accessToken]);
 
   if (!currentSession || !accessToken || !userData) return;
   return (
-    <Wrap>
-      <WrapItem>
-        <Avatar size="2xl" name="lmao" src={currentSession.avatarURL} />
-        <Heading>{userData?.displayname}</Heading>
-      </WrapItem>
-    </Wrap>
+    <Box>
+      <Wrap>
+        <WrapItem>
+          <Avatar size="2xl" name="lmao" src={currentSession.avatarURL} />
+          <Heading>{userData?.displayname}</Heading>
+        </WrapItem>
+      </Wrap>
+    </Box>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import SignInComponent from "./components/SignInComponent";
 import { useEffect, useState } from "react";
 import { Session } from "next-auth";
@@ -10,27 +10,27 @@ import AverageHourPerWweek from "./components/profile/AverageHourPerWeek";
 import Timetable from "./components/timetable/timetable";
 import { Box, Collapse } from "@chakra-ui/react";
 import DeathCalendar from "./components/bhd_calendar/BlackholeCalendar";
+import { useSessionAction } from "./libs/stores/useSessionStore";
 
 function Homepage() {
   const [session, setSession] = useState<Session | null | undefined>();
+  const sessionAction = useSessionAction();
   useEffect(() => {
     async function fetchSession() {
       const newSession = await getSession();
       setSession(newSession);
+      if (newSession && newSession.access_token) {
+        sessionAction.setAccessToken(newSession.access_token);
+        sessionAction.setSession(newSession);
+      }
     }
     fetchSession();
   }, []);
   return (
     <div>
-      <Box display="flex">
-        <Box>
-          <SignInComponent session={session} />
-          <CadetProfile></CadetProfile>
-          <AverageHourPerWweek></AverageHourPerWweek>
-        </Box>
-        <Timetable></Timetable>
-        <DeathCalendar></DeathCalendar>
-      </Box>
+      <SignInComponent />
+      <CadetProfile></CadetProfile>
+      <AverageHourPerWweek></AverageHourPerWweek>
       <MainDisplay></MainDisplay>
       <Timetable></Timetable>
       <DeathCalendar></DeathCalendar>
