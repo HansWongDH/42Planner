@@ -42,6 +42,7 @@ export default function ProgressProjectBox({
   return (
     <Box display="flex">
       <Box
+        onClick={onClickHandler}
         display="flex"
         justifyContent="space-evenly"
         alignItems="center"
@@ -53,7 +54,7 @@ export default function ProgressProjectBox({
         marginRight={projectData.isSplitProject ? "2px" : "0px"}
         bg={determineColor(projectData)}
       >
-        <Button onClick={onClickHandler}>{projectData.projectName}</Button>
+        {projectData.projectName}
         {projectData.status === "in_progress" ? (
           <Collapse in={showEst}>
             <EstimatedTimeTaken
@@ -65,6 +66,7 @@ export default function ProgressProjectBox({
       </Box>
       {projectData.isSplitProject ? (
         <Box
+          onClick={onClickHandler}
           display="flex"
           justifyContent="space-evenly"
           alignItems="center"
@@ -76,17 +78,7 @@ export default function ProgressProjectBox({
           marginLeft="2px"
           bg="white"
         >
-          <Button onClick={() => onClickHandler}>
-            {projectData.isSplitProject}
-          </Button>
-          {projectData.status === "in_progress" ? (
-            <Collapse in={showEst}>
-              <EstimatedTimeTaken
-                project_id={projectData.projectID}
-                start_at={projectData.projectStart}
-              />
-            </Collapse>
-          ) : null}
+          {projectData.isSplitProject}
         </Box>
       ) : null}
     </Box>
