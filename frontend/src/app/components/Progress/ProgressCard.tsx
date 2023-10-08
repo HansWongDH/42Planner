@@ -28,7 +28,7 @@ function levelHandler(level: number) {
     return (
       <VStack spacing={4} alignItems="center">
         <ProgressProject
-          projectName="fdf"
+          projectName="FdF"
           splitProjectName="so_long"
         ></ProgressProject>
         <ProgressProject

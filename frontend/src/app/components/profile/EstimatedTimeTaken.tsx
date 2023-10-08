@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 interface EstimatedTimeTakenProps {
   project_id: number | undefined;
   start_at: string | undefined;
-  status: "in_progress" | "finished" | undefined;
+  status: "in_progress" | "finished" | "searching_a_group" | undefined;
 }
 
 interface calenderProps {

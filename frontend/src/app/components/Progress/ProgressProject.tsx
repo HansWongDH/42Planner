@@ -17,32 +17,24 @@ export default function ProgressProject({
   splitProjectName,
   projectSlug,
 }: ProgessProjectProps) {
-  console.log(projectName);
   const currentUser = useCurrentUser();
 
   if (!currentUser) return;
   const data = currentUser.projects_users.find((map) => {
-    return (
-      map.project.name === projectName ||
-      map.project.name === splitProjectName ||
-      map.project.name === projectSlug
-    ); // Returns if the map.project.name exist as either one of the three
+    return map.project.name === projectName || map.project.name === projectSlug; // Returns if the map.project.name exist as either one of the three
   });
 
-  function helperft(projectData: ProgressProjectData | null) {
-    if (!projectData) {
-      return null;
-    }
-    return projectData?.status;
-  }
-
+  const splitData = currentUser.projects_users.find((map) => {
+    return map.project.name === splitProjectName; // Returns if the map.project.name exist as either one of the three
+  });
   const projectData: ProgressProjectData = {
     projectName: projectName,
     projectID: 0,
     projectStart: "",
     isSplitProject: undefined,
     isProjectSlug: false,
-    status: undefined,
+    status1: undefined,
+    status2: undefined,
   };
 
   projectData.projectName = data?.project.name;
@@ -56,19 +48,15 @@ export default function ProgressProject({
     projectData.isSplitProject = splitProjectName;
   }
 
-  projectData.status = data?.status;
-  projectData.projectID = data?.project.id;
-  projectData.projectStart = data?.created_at;
+  projectData.status1 = data?.status;
 
+  if (projectName === "cub3d") console.log(data?.status);
+  projectData.status2 = splitData?.status;
+  projectData.projectID = data?.project.id;
+  projectData.projectStart = data?.created_at ?? splitData?.created_at ?? "";
   if (!projectData.projectName) {
     projectData.projectName = projectName;
   }
-  // console.log("-----------------DATA: ", data, " -----------------");
-  // console.log(
-  //   "Blackholes obtained",
-  //   blackHoleDayCalculator(currentExp, ProjectList.LIBFT)
-  // );
-
   return (
     <ProgressProjectBox
       projectName={projectName}

@@ -4,7 +4,8 @@ export interface ProgressProjectData {
   projectStart: string | undefined;
   isSplitProject: string | undefined;
   isProjectSlug: boolean;
-  status: "in_progress" | "finished" | undefined;
+  status1: "in_progress" | "finished" | "searching_a_group" | undefined;
+  status2: "in_progress" | "finished" | "searching_a_group" | undefined;
 }
 
 export enum ProjectList {

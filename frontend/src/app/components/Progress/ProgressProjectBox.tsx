@@ -29,17 +29,18 @@ export default function ProgressProjectBox({
   projectData,
 }: ProgressProjectBoxProps) {
   const { setDisplay } = useSessionAction();
-  const currentDisplay = useCurrentDisplay();
   const [ShowBackdrop, setShowBackdrop] = useState(false);
 
-  function determineColor(projectData: ProgressProjectData) {
-    if (projectData.status === undefined) {
+  function determineColor(
+    status: "in_progress" | "finished" | "searching_a_group" | undefined
+  ) {
+    if (status === undefined) {
       return "white";
     }
-    if (projectData.status === "in_progress") {
+    if (status === "in_progress" || status === "searching_a_group") {
       return "yellow.100";
     }
-    if (projectData.status === "finished") {
+    if (status === "finished") {
       return "gray";
     }
   }
@@ -69,9 +70,9 @@ export default function ProgressProjectBox({
         paddingRight="0.8vw"
         border="3px solid black"
         marginRight={projectData.isSplitProject ? "2px" : "0px"}
-        bg={determineColor(projectData)}
+        bg={determineColor(projectData.status1)}
       >
-        {projectData.projectName}
+        {projectName}
 
         <Modal isOpen={ShowBackdrop} onClose={onClose}>
           <ModalOverlay />
@@ -82,12 +83,12 @@ export default function ProgressProjectBox({
               <EstimatedTimeTaken
                 project_id={projectData.projectID}
                 start_at={projectData.projectStart}
-                status={projectData.status}
+                status={projectData.status1}
               />
             </ModalBody>
 
             <ModalFooter>
-              {projectData.status === "finished" ? (
+              {projectData.status1 === "finished" ? (
                 <Button
                   colorScheme="blue"
                   mr={3}
@@ -123,9 +124,9 @@ export default function ProgressProjectBox({
           paddingRight="0.8vw"
           border="3px solid black"
           marginLeft="2px"
-          bg="white"
+          bg={determineColor(projectData.status2)}
         >
-          {splitProjectName}
+          {projectData?.isSplitProject}
         </Box>
       ) : null}
     </Box>
